@@ -9,7 +9,11 @@ from get_RIPE.RIPE_data import get_data_by_ip
 
 
 def main(dest_name, hops):
-    dest_addr = socket.gethostbyname(dest_name)
+    try:
+        dest_addr = socket.gethostbyname(dest_name)
+    except socket.gaierror:
+        print('Invalid domain name or connection')
+        return
     port = 5000
     max_hops = hops
     icmp = socket.getprotobyname('icmp')
@@ -73,4 +77,4 @@ def main(dest_name, hops):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2])
+    main(sys.argv[1], int(sys.argv[2]))
